@@ -1,5 +1,6 @@
 package com.aerium.recyclerview;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,30 @@ public class Recyclerview extends RecyclerView.Adapter<Recyclerview.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        try{
+            String first_name = jsonArray.getJSONObject(position).getString("first_name");
+            String last_name = jsonArray.getJSONObject(position).getString("second_name");
+            String gender = jsonArray.getJSONObject(position).getString("gender");
+            String color = jsonArray.getJSONObject(position).getString("color");
 
+            String formula = first_name +" "+last_name;
+            String url = jsonArray.getJSONObject(position).getString("email");
+
+            holder.formula.setText(formula);
+            holder.formula.setTextColor(Color.parseColor(color));
+            holder.url.setText(url);
+            if (gender=="male"){
+                holder.img.setImageResource(R.drawable.ic_launcher_background);
+            }else{
+                holder.img.setImageResource(R.drawable.ic_launcher_foreground);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return jsonArray.length();
     }
-
 }
